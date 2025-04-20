@@ -320,7 +320,7 @@ static const struct of_device_id spi_matchs[] = {
 		.compatible = "xiaomi,m11-spi",
 	},
 	{
-		.compatible = "xiaomi,n11-spi",
+		.compatible = "xiaomi,vermeer-spi",
 	},
 	{},
 };
