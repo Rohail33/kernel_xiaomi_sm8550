@@ -55,6 +55,13 @@ enum brl_request_code {
 #define GOODIX_FOD_AREA_RADIUS 1300
 #endif
 
+#if IS_ENABLED(CONFIG_TARGET_PRODUCT_VERMEER)
+#define GOODIX_FOD_COOR_CHECK
+#define GOODIX_FOD_AREA_CENTER_X 7200
+#define GOODIX_FOD_AREA_CENTER_Y 28820
+#define GOODIX_FOD_AREA_RADIUS 1240
+#endif
+
 #ifdef GOODIX_FOD_COOR_CHECK
 static inline int goodix_is_fod_area_pressed(int report_x, int report_y) {
 	int radius_squared = GOODIX_FOD_AREA_RADIUS * GOODIX_FOD_AREA_RADIUS;
