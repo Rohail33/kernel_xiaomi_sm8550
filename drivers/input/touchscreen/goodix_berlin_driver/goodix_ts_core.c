@@ -1937,8 +1937,9 @@ out:
 	if (core_data->board_data.support_thp_fw) {
 		core_data->hw_ops->set_coor_mode(core_data);
 	}
-	if (core_data->high_report_rate) {
-		core_data->hw_ops->switch_report_rate(core_data, true);
+	if (core_data->report_rate != 240) {
+		ts_info("Restoring HTSR-480hz");
+		hw_ops->switch_report_rate(core_data, true);
 	}
 	ts_info("Resume end");
 	return 0;
@@ -2580,6 +2581,7 @@ static int goodix_ts_probe(struct platform_device *pdev)
 	goodix_tools_init();
 
 	core_data->init_stage = CORE_INIT_STAGE1;
+        core_data->report_rate = 240;
 	goodix_modules.core_data = core_data;
 	core_module_prob_sate = CORE_MODULE_PROB_SUCCESS;
 

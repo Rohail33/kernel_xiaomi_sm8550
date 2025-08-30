@@ -317,25 +317,22 @@ exit:
 	return ret;
 }
 
-#define GOODIX_HIGH_RATE_CMD 0xC0
-static int brl_switch_report_rate(struct goodix_ts_core *cd, bool high)
+#define GOODIX_HIGH_RATE_CMD		0xC1
+static int brl_switch_report_rate(struct goodix_ts_core *cd, bool on)
 {
 	struct goodix_ts_cmd cmd;
-	int ret = 0;
 
 	cmd.cmd = GOODIX_HIGH_RATE_CMD;
 	cmd.len = 5;
-	cmd.data[0] = high;
-	ret = cd->hw_ops->send_cmd(cd, &cmd);
-	if (ret < 0) {
-		ts_err("failed to send report rate cmd, high = %d", high);
-		goto exit;
+	cmd.data[0] = (on == true) ? 1 : 0;
+	if (cd->hw_ops->send_cmd(cd, &cmd)) {
+		ts_err("failed send report rate cmd, on = %d", on);
+		return -EINVAL;
 	}
-	ts_info("report rate switch: %s", high ? "480HZ" : "240HZ");
-	cd->high_report_rate = high;
+	ts_info("report rate switch: %s", (on == true) ? "480HZ" : "240HZ");
+        cd->report_rate = 480;
 
-exit:
-	return ret;
+	return 0;
 }
 
 int brl_resume(struct goodix_ts_core *cd)
